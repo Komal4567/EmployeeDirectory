@@ -1,8 +1,11 @@
-const Employee = require('../models/Employee');
+const Employee = require("../models/Employee");
 
 /**
- * Get all employees.
- * A search can be done using name or department.
+ * Retrieve a list of employees. Supports optional `search` query to
+ * filter by name or department.
+ * @param {import('express').Request} req - Express request
+ * @param {import('express').Response} res - Express response
+ * @returns {Promise<void>}
  */
 const getEmployees = async (req, res) => {
   try {
@@ -13,9 +16,9 @@ const getEmployees = async (req, res) => {
     if (search) {
       employees = await Employee.find({
         $or: [
-          { name: { $regex: search, $options: 'i' } },
-          { department: { $regex: search, $options: 'i' } }
-        ]
+          { name: { $regex: search, $options: "i" } },
+          { department: { $regex: search, $options: "i" } },
+        ],
       }).sort({ name: 1 });
     } else {
       employees = await Employee.find().sort({ name: 1 });
@@ -23,15 +26,19 @@ const getEmployees = async (req, res) => {
 
     res.json(employees);
   } catch (error) {
-    console.error('Error getting employees:', error.message);
+    console.error("Error getting employees:", error.message);
     res.status(500).json({
-      message: 'Failed to get employees'
+      message: "Failed to get employees",
     });
   }
 };
 
 /**
- * Get one employee using their ID.
+ * Retrieve a single employee by MongoDB ID.
+ * Returns 404 when no matching employee is found.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
  */
 const getEmployeeById = async (req, res) => {
   try {
@@ -39,20 +46,24 @@ const getEmployeeById = async (req, res) => {
 
     if (!employee) {
       return res.status(404).json({
-        message: 'Employee not found'
+        message: "Employee not found",
       });
     }
 
     res.json(employee);
   } catch (error) {
     res.status(400).json({
-      message: 'Invalid employee ID'
+      message: "Invalid employee ID",
     });
   }
 };
 
 /**
- * Add a new employee.
+ * Create a new employee document.
+ * Validates required fields and returns the created resource.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
  */
 const createEmployee = async (req, res) => {
   try {
@@ -60,7 +71,7 @@ const createEmployee = async (req, res) => {
 
     if (!name || !role || !department) {
       return res.status(400).json({
-        message: 'Name, role and department are required'
+        message: "Name, role and department are required",
       });
     }
 
@@ -69,49 +80,51 @@ const createEmployee = async (req, res) => {
       role,
       department,
       email,
-      phone
+      phone,
     });
 
     res.status(201).json(employee);
   } catch (error) {
-    console.error('Error creating employee:', error.message);
+    console.error("Error creating employee:", error.message);
 
     res.status(500).json({
-      message: 'Failed to create employee'
+      message: "Failed to create employee",
     });
   }
 };
 
 /**
- * Update an existing employee.
+ * Update an existing employee by ID. Returns the updated document.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
  */
 const updateEmployee = async (req, res) => {
   try {
-    const employee = await Employee.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true
-      }
-    );
+    const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!employee) {
       return res.status(404).json({
-        message: 'Employee not found'
+        message: "Employee not found",
       });
     }
 
     res.json(employee);
   } catch (error) {
     res.status(400).json({
-      message: 'Could not update employee'
+      message: "Could not update employee",
     });
   }
 };
 
 /**
- * Delete an employee.
+ * Delete an employee by ID. Responds with a success message on deletion.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<void>}
  */
 const deleteEmployee = async (req, res) => {
   try {
@@ -119,16 +132,16 @@ const deleteEmployee = async (req, res) => {
 
     if (!employee) {
       return res.status(404).json({
-        message: 'Employee not found'
+        message: "Employee not found",
       });
     }
 
     res.json({
-      message: 'Employee deleted successfully'
+      message: "Employee deleted successfully",
     });
   } catch (error) {
     res.status(400).json({
-      message: 'Could not delete employee'
+      message: "Could not delete employee",
     });
   }
 };
@@ -138,5 +151,5 @@ module.exports = {
   getEmployeeById,
   createEmployee,
   updateEmployee,
-  deleteEmployee
+  deleteEmployee,
 };

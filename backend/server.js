@@ -1,10 +1,16 @@
-require('dotenv').config();
+/**
+ * Server entrypoint for the Employee Directory API.
+ * Sets up middleware, routes, and starts the HTTP server after
+ * establishing a MongoDB connection.
+ * @module server
+ */
+require("dotenv").config();
 
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
-const connectDB = require('./config/db');
-const employeeRoutes = require('./routes/employeeRoutes');
+const connectDB = require("./config/db");
+const employeeRoutes = require("./routes/employeeRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,17 +22,18 @@ app.use(cors());
 app.use(express.json());
 
 // Employee routes
-app.use('/api/employees', employeeRoutes);
+app.use("/api/employees", employeeRoutes);
 
 // Test route
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.json({
-    message: 'Employee Directory API is running'
+    message: "Employee Directory API is running",
   });
 });
 
 /**
- * Connects to MongoDB and starts the server.
+ * Start the application after connecting to the database.
+ * @returns {void}
  */
 connectDB()
   .then(() => {
@@ -35,5 +42,5 @@ connectDB()
     });
   })
   .catch((error) => {
-    console.error('MongoDB connection failed:', error.message);
+    console.error("MongoDB connection failed:", error.message);
   });

@@ -1,7 +1,14 @@
-import EmployeeCard from './EmployeeCard';
+import EmployeeCard from "./EmployeeCard";
 
+/**
+ * Render a list of employees as cards. When the list is empty
+ * a small informational message is shown.
+ * @param {{employees: Array, onEdit: function, onDelete: function}} props
+ * @returns {JSX.Element}
+ */
 function EmployeeList({ employees, onEdit, onDelete }) {
-  if (employees.length === 0) {     // Display a message when there are no employees
+  if (employees.length === 0) {
+    // Display a message when there are no employees
     return <p className="no-employees">No employees found.</p>;
   }
 

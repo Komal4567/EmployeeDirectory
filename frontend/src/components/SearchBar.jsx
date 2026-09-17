@@ -1,4 +1,8 @@
-// Keep the search box value in sync with the main page
+/**
+ * Controlled search input used on the directory page.
+ * @param {{search: string, setSearch: function}} props
+ * @returns {JSX.Element}
+ */
 function SearchBar({ search, setSearch }) {
   return (
     <input

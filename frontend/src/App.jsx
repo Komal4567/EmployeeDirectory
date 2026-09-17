@@ -1,5 +1,5 @@
-import EmployeeDirectory from './pages/EmployeeDirectory';
-import './App.css';
+import EmployeeDirectory from "./pages/EmployeeDirectory";
+import "./App.css";
 
 function App() {
   return <EmployeeDirectory />;

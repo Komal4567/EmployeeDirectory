@@ -1,4 +1,9 @@
-const express = require('express');
+/**
+ * Router for employee-related API endpoints.
+ * Exposes handlers to list, create, update and delete employees.
+ * @module routes/employeeRoutes
+ */
+const express = require("express");
 const router = express.Router();
 
 const {
@@ -6,22 +11,22 @@ const {
   getEmployeeById,
   createEmployee,
   updateEmployee,
-  deleteEmployee
-} = require('../controllers/employeeController');
+  deleteEmployee,
+} = require("../controllers/employeeController");
 
 // Get all employees or search employees
-router.get('/', getEmployees);
+router.get("/", getEmployees);
 
 // Get one employee
-router.get('/:id', getEmployeeById);
+router.get("/:id", getEmployeeById);
 
 // Add a new employee
-router.post('/', createEmployee);
+router.post("/", createEmployee);
 
 // Update an employee
-router.put('/:id', updateEmployee);
+router.put("/:id", updateEmployee);
 
 // Delete an employee
-router.delete('/:id', deleteEmployee);
+router.delete("/:id", deleteEmployee);
 
 module.exports = router;

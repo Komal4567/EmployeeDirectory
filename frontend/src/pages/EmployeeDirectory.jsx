@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import SearchBar from '../components/SearchBar';
-import EmployeeForm from '../components/EmployeeForm';
-import EmployeeList from '../components/EmployeeList';
+import SearchBar from "../components/SearchBar";
+import EmployeeForm from "../components/EmployeeForm";
+import EmployeeList from "../components/EmployeeList";
 
 import {
   getEmployees,
   addEmployee,
   updateEmployee,
-  deleteEmployee
-} from '../services/employeeService';
+  deleteEmployee,
+} from "../services/employeeService";
 
 function EmployeeDirectory() {
   const [employees, setEmployees] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
 
   /**
@@ -33,7 +33,7 @@ function EmployeeDirectory() {
   }, [search]);
 
   /**
-   * Adds a new employee or updates  existing one.
+   * Adds a new employee or updates existing one.
    */
   const handleSave = async (employee) => {
     try {
@@ -55,7 +55,7 @@ function EmployeeDirectory() {
    */
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
-      'Are you sure you want to delete this employee?'
+      "Are you sure you want to delete this employee?",
     );
 
     if (!confirmed) {
@@ -74,10 +74,7 @@ function EmployeeDirectory() {
     <div className="container">
       <h1>Employee Directory</h1>
 
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-      />
+      <SearchBar search={search} setSearch={setSearch} />
 
       <EmployeeForm
         employeeToEdit={employeeToEdit}
